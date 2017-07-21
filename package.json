@@ -5,6 +5,7 @@
   "main": "main.js",
   "dependencies": {
     "electron": "^1.4.5",
+    "ip": "^1.1.5",
     "react": "^15.3.2",
     "react-desktop": "^0.2.14",
     "react-dom": "^15.3.2"
