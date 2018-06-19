@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import  ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import IpLabel from './ip-label';
 
-class App extends Component {
+class App extends React.Component {
   render() {
     return (
       <div>

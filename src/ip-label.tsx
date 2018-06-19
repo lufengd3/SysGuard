@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
-import { Label } from 'react-desktop/macOs';
-import os from 'os';
+import * as React from 'react';
+import * as os from 'os';
+
+const {Label} = require('react-desktop/macOs');
 
 const ifs = os.networkInterfaces();
 
-export default class extends Component {
+export default class extends React.Component {
   getIp() {
     let ip;
 

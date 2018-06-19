@@ -1,13 +1,12 @@
-const {app, BrowserWindow, Tray} = require('electron')
-const path = require('path')
-const url = require('url')
-const assetsDirectory = path.join(__dirname, 'assets')
-const ip = require('ip')
+import {app, BrowserWindow, Tray} from 'electron';
+import * as path from 'path';
+import * as url from 'url';
+import * as ip from 'ip';
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let win
-let tray
+const assetsDirectory = path.join(__dirname, '../assets');
+
+let win: Electron.BrowserWindow;
+let tray;
 
 function createWindow () {
   // Create the browser window.
@@ -15,7 +14,7 @@ function createWindow () {
 
   // and load the index.html of the app.
   win.loadURL(url.format({
-    pathname: path.join(__dirname, 'index.html'),
+    pathname: path.join(__dirname, '../index.html'),
     protocol: 'file:',
     slashes: true
   }))
@@ -42,7 +41,7 @@ const createTray = () => {
 
     // Show devtools when command clicked
     if (win.isVisible() && process.defaultApp && event.metaKey) {
-      win.openDevTools({mode: 'detach'})
+      win.webContents.openDevTools({mode: 'detach'})
     }
   })
 }
@@ -56,7 +55,7 @@ const toggleWindow = () => {
   }
 }
 
-app.dock.hide()
+// app.dock.hide()
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

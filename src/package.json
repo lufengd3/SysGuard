@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "@types/ip": "^0.0.31"
+  }
+}
