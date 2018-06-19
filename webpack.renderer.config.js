@@ -4,6 +4,7 @@ const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const baseConfig = require('./webpack.base.config');
+const DEV_SERVER_PORT = 9000;
 
 module.exports = merge.smart(baseConfig, {
   target: 'electron-renderer',
@@ -20,34 +21,14 @@ module.exports = merge.smart(baseConfig, {
           path.resolve(__dirname, 'src', 'main.ts')
         ],
         loader: 'awesome-typescript-loader'
-      },
-      // {
-      //   test: /\.css$/,
-      //   loaders: ['style-loader', 'css-loader']
-      // },
-      // {
-      //   test: /\.(gif|png|jpe?g|svg)$/,
-      //   use: [
-      //     'file-loader',
-      //     {
-      //       loader: 'image-webpack-loader',
-      //       options: {
-      //         bypassOnDebug: true
-      //       }
-      //     }
-      //   ]
-      // },
-      // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-      // {
-      //   enforce: 'pre',
-      //   test: /\.js$/,
-      //   loader: 'source-map-loader'
-      // }
+      }
     ]
   },
+  devServer: {
+    contentBase: '.',
+    port: DEV_SERVER_PORT,
+  },
   plugins: [
-    // new webpack.DefinePlugin({
-    //   'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
-    // })
+    new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'index.html') }),
   ]
 });

@@ -2,6 +2,7 @@ import {app, BrowserWindow, Tray} from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import * as ip from 'ip';
+import FsServer from './node/fs-server';
 
 const assetsDirectory = path.join(__dirname, '../assets');
 
@@ -14,8 +15,10 @@ function createWindow () {
 
   // and load the index.html of the app.
   win.loadURL(url.format({
-    pathname: path.join(__dirname, '../index.html'),
-    protocol: 'file:',
+    // pathname: path.join(__dirname, '../index.html'),
+    // protocol: 'file:',
+    pathname: '//localhost:9000/index.html',
+    protocol: 'http:',
     slashes: true
   }))
 
@@ -31,21 +34,6 @@ function createWindow () {
   })
 }
 
-const createTray = () => {
-  tray = new Tray(path.join(assetsDirectory, 'tray.jpg'))
-  tray.setTitle(ip.address())
-  tray.on('right-click', toggleWindow)
-  tray.on('double-click', toggleWindow)
-  tray.on('click', function (event) {
-    toggleWindow()
-
-    // Show devtools when command clicked
-    if (win.isVisible() && process.defaultApp && event.metaKey) {
-      win.webContents.openDevTools({mode: 'detach'})
-    }
-  })
-}
-
 const toggleWindow = () => {
   if (win.isVisible()) {
     win.hide()
@@ -55,28 +43,23 @@ const toggleWindow = () => {
   }
 }
 
-// app.dock.hide()
+const startNodeService = () => {
+  const fsServer = new FsServer();
+  fsServer.start();
+}
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-  createWindow()
-  createTray()
+  createWindow();
+  startNodeService();
 })
 
-// Quit when all windows are closed.
 app.on('window-all-closed', () => {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
 
 app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if (win === null) {
     createWindow()
   }

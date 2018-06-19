@@ -11,17 +11,11 @@ module.exports = merge.smart(baseConfig, {
     rules: [
       {
         test: /\.tsx?$/,
-        include: [
-          path.resolve(__dirname, 'src', 'main.ts')
-        ],
+        include: path.resolve(__dirname, 'src'),
         loader: 'awesome-typescript-loader'
       }
     ]
   },
   plugins: [
-    // new CheckerPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
-    })
   ]
 });
