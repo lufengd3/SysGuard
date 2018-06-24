@@ -21,6 +21,33 @@ module.exports = merge.smart(baseConfig, {
           path.resolve(__dirname, 'src', 'main.ts')
         ],
         loader: 'awesome-typescript-loader'
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'typings-for-css-modules-loader',
+            options: {
+              modules: true,
+              namedExport: true
+            }
+          }
+        ]
+      },
+      {
+        test: /\.less$/,
+        use: [{
+            loader: "style-loader" // creates style nodes from JS strings
+        }, {
+          loader: 'typings-for-css-modules-loader',
+          options: {
+            modules: true,
+            namedExport: true
+          }
+        }, {
+            loader: "less-loader" // compiles Less to CSS
+        }]
       }
     ]
   },
