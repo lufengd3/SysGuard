@@ -6,6 +6,8 @@ import FsServer from './node/fs-server';
 
 const assetsDirectory = path.join(__dirname, '../assets');
 
+console.log(process.argv);
+
 let win: Electron.BrowserWindow;
 let tray;
 

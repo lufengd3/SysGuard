@@ -1,7 +1,44 @@
+@import "../../base";
+
 .container {
   width: 208px;
   height: 100%;
-  box-sizing: border-box;
-  border: 1px solid #EEE;
   overflow-y: auto;
+  border-left: none;
+  border-right: 1px solid rgba(220, 220, 220, .6);
+}
+
+.menu {
+  height: 36px;
+  display: flex;
+  align-items: center;
+}
+
+.menu:hover {
+  cursor: pointer;
+  background-color: rgba(220, 220, 220, .3);
+}
+
+.menuItem {
+  height: 28px;
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.menuItemActive {
+  .menuItem;
+  box-shadow: 4px 0 0 0 @active-color inset;
+}
+
+.icon {
+  margin-left: 20px;
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.text {
+  text-decoration: none;
+  color: #333333;
 }
