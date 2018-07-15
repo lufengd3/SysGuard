@@ -2,72 +2,70 @@ import * as React from 'react';
 import { Nav, INavProps } from 'office-ui-fabric-react/lib/Nav';
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import {NavLink} from 'react-router-dom';
-import {routerPath} from '../../constant';
+import routeConf from '../../route-conf';
 import * as style from './style.less';
 
-type menu = {
-  name: string,
-  icon: string,
-  path: string,
-};
-type menuData = Array<menu>;
+const LINK_CLASS_NAME = 'route-link-item';
 
 export default class NavBasicExample extends React.Component<any, any> {
-  data: menuData;
-
   constructor(props: INavProps) {
     super(props);
 
-    this.data = [{
-      name: '浏览',
-      icon: 'CompassNW',
-      path: routerPath.fileList
-    }, {
-      name: '设置',
-      icon: 'Settings',
-      path: routerPath.settings
-    }];
-
     this.state = {
-      selectedIndex: 0
+      selectedIndex: null
     };
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextState.selectedIndex !== this.state.selectedIndex;
+  componentDidMount() {
+    this._updateHelight();
   }
 
   public render(): JSX.Element {
     const {selectedIndex} = this.state;
+
     return (
       <div className={style.container}>
-        <ul>
-          {this.data.map((item, index) => {
-            const active: boolean = selectedIndex === index;
-            console.log(item.path)
+        {routeConf.map((item, index) => {
+          const active: boolean = selectedIndex == index;
 
-            return (
-              <li className={style.menu} 
-                key={index} 
-                onClick={() => {
-                  this._handleClick(index);
-                }}
-              >
-                <div className={active ? style.menuItemActive : style.menuItem}>
-                  <Icon iconName={item.icon} className={style.icon} />
-                  <NavLink to={item.path} className={style.text}>
-                    {item.name}
-                  </NavLink>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
+          return (
+            <NavLink
+              exact
+              to={item.path}
+              className={LINK_CLASS_NAME + ' ' + style.link}
+              key={index}
+              onClick={() => {
+                this._handleClick(index);
+              }}
+            >
+              <div className={active ? style.menuItemActive : style.menuItem}>
+                <Icon iconName={item.icon} className={style.icon} />
+                <span>{item.name}</span>
+              </div>
+            </NavLink>
+          );
+        })}
       </div>
     );
   }
 
-  private _handleClick = (index: number): void => {
+  private _updateHelight = () => {
+    const linkList = document.querySelectorAll(`.${LINK_CLASS_NAME}`);
+
+    for (let i = 0; i < linkList.length; i++) {
+      const item = linkList[i];
+      const classList = item.getAttribute('class').split(' ');
+
+      if (classList.indexOf('active') > -1) {
+        this.setState({
+          selectedIndex: i
+        });
+        break;
+      }
+    }
+  }
+
+  private _handleClick = (index) => {
     this.setState({
       selectedIndex: index
     });

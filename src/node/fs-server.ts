@@ -5,8 +5,10 @@ import * as finalhandler from 'finalhandler';
 import * as serveStatic from 'serve-static';
 import * as serveIndex from 'serve-index';
 import FolderReader from './folder-reader';
+import {getItem} from '../common/prefrence';
 
-const HOME_DIR = os.homedir();
+const projConf = require('../config.json');
+const DEFAULT_PATH = getItem('servePath');
 
 interface IFsServer {
   start(): void;
@@ -20,23 +22,26 @@ class FsServer implements IFsServer {
   server;
   folderReader;
 
-  constructor(rootPath = HOME_DIR) {
-    this.publicPath = path.join(rootPath, 'Downloads');
+  constructor(rootPath = DEFAULT_PATH) {
+    this.publicPath = rootPath;
     this.fsService = serveStatic(this.publicPath);
-    this.serveIndex = serveIndex(this.publicPath, {'icons': true})
     this.folderReader = new FolderReader(this.publicPath);
+
+    const serverIndexAssetsPath = path.join(__dirname, '../assets/server-index/');
+    this.serveIndex = serveIndex(this.publicPath, {
+      // icons: true,
+      stylesheet: path.join(serverIndexAssetsPath, 'style.css'),
+      template: path.join(serverIndexAssetsPath, 'directory.html')
+    });
   }
 
   public start() {
     this.server = this._createServer();
-    this.server.listen(3000);
+    this.server.listen(projConf.HTTP_SERVER_PORT);
   }
 
   public stop() {
-    this.server.close(function() {
-      console.log('We closed!');
-      process.exit();
-    });
+    this.server.close();
   }
 
   private _createServer() {
@@ -45,9 +50,12 @@ class FsServer implements IFsServer {
       const done = finalhandler(req, res);
 
       this.fsService(req, res, (err) => {
-        if (err) return done(err)
+        if (err) {
+          return done(err);
+        }
+
         this.serveIndex(req, res, done)
-      })
+      });
     });
   }
 
@@ -64,14 +72,13 @@ class FsServer implements IFsServer {
         return;
       }
 
-      console.log(data);
       const indexPage = '<html><body style="color:red;">fs</body></html>';
 
       res.writeHead(200, { 'Content-Type': 'text/html' });
       res.write(indexPage);
       res.end();
     } else {
-      this.fsService(req, res, finalhandler(req, res))
+      this.fsService(req, res, finalhandler(req, res));
     }
   }
 

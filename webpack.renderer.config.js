@@ -3,8 +3,8 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const projConf = require('./src/config.json');
 const baseConfig = require('./webpack.base.config');
-const DEV_SERVER_PORT = 9000;
 
 module.exports = merge.smart(baseConfig, {
   target: 'electron-renderer',
@@ -53,7 +53,7 @@ module.exports = merge.smart(baseConfig, {
   },
   devServer: {
     contentBase: '.',
-    port: DEV_SERVER_PORT,
+    port: projConf.DEV_STATIC_SERVER_PORT,
   },
   plugins: [
     new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'index.html') }),

@@ -2,19 +2,34 @@
 
 .container {
   width: 208px;
+  min-width: 160px;
   height: 100%;
   overflow-y: auto;
   border-left: none;
   border-right: 1px solid rgba(220, 220, 220, .6);
 }
 
-.menu {
+// .menu {
+//   height: 36px;
+//   display: flex;
+//   align-items: center;
+// }
+
+// .menu:hover {
+//   cursor: pointer;
+//   background-color: rgba(220, 220, 220, .3);
+// }
+
+.link {
   height: 36px;
   display: flex;
   align-items: center;
+
+  text-decoration: none;
+  flex-grow: 1;
 }
 
-.menu:hover {
+.link:hover {
   cursor: pointer;
   background-color: rgba(220, 220, 220, .3);
 }
@@ -25,6 +40,7 @@
   flex-grow: 1;
   justify-content: flex-start;
   align-items: center;
+  color: #333333;
 }
 
 .menuItemActive {
@@ -36,9 +52,4 @@
   margin-left: 20px;
   font-size: 24px;
   margin-right: 10px;
-}
-
-.text {
-  text-decoration: none;
-  color: #333333;
 }

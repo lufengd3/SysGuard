@@ -6,7 +6,6 @@ import * as style from './style.less';
 
 class App extends React.Component {
   render() {
-    console.log(style);
     return (
       <HashRouter>
         <div className={style.rootContainer}>

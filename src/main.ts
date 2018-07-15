@@ -4,28 +4,35 @@ import * as url from 'url';
 import * as ip from 'ip';
 import FsServer from './node/fs-server';
 
+const projConf = require('./config.json');
 const assetsDirectory = path.join(__dirname, '../assets');
 
-console.log(process.argv);
+const DEBUG_MODE = process.argv.indexOf('--debug') > 1;
+const INDEX_CONFIG = DEBUG_MODE ? {
+  pathname: `//127.0.0.1:${projConf.DEV_STATIC_SERVER_PORT}/index.html`,
+  protocol: 'http:',
+} : {
+  pathname: path.join(__dirname, '../index.html'),
+  protocol: 'file:',
+}
 
 let win: Electron.BrowserWindow;
 let tray;
+const fsServer = new FsServer();
 
-function createWindow () {
+const createWindow = () => {
   // Create the browser window.
   win = new BrowserWindow({width: 800, height: 600})
 
   // and load the index.html of the app.
   win.loadURL(url.format({
-    // pathname: path.join(__dirname, '../index.html'),
-    // protocol: 'file:',
-    pathname: '//localhost:9000/index.html',
-    protocol: 'http:',
+    ...INDEX_CONFIG,
     slashes: true
   }))
 
-  // Open the DevTools.
-  win.webContents.openDevTools()
+  if (DEBUG_MODE) {
+    win.webContents.openDevTools()
+  }
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -46,7 +53,6 @@ const toggleWindow = () => {
 }
 
 const startNodeService = () => {
-  const fsServer = new FsServer();
   fsServer.start();
 }
 
@@ -57,6 +63,7 @@ app.on('ready', () => {
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
+    fsServer.stop();
     app.quit()
   }
 })
@@ -65,4 +72,8 @@ app.on('activate', () => {
   if (win === null) {
     createWindow()
   }
+})
+
+app.on('quit', () => {
+  fsServer.stop();
 })
