@@ -15,11 +15,11 @@ const ROUTE_CONF: Array<route> = [{
   path: '/',
   component: FileList,
 }, {
-  name: '设置',
-  icon: 'Settings',
-  path: '/settings',
-  component: Settings
-}, {
+//   name: '设置',
+//   icon: 'Settings',
+//   path: '/settings',
+//   component: Settings
+// }, {
   name: '关于',
   icon: 'Info',
   path: '/about',
