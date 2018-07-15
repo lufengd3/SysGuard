@@ -5,21 +5,20 @@ const ifs = os.networkInterfaces();
 function getIpList(): string[] {
   const ipList = [];
 
+  const tmpList = [];
   for (let key in ifs) {
     const netIf = ifs[key];
-
-    for (let i = netIf.length; i--;) {
-      const item = netIf[i];
+    netIf.map((item, index) => {
       if (item.address && item.family === 'IPv4' && item.address !== '127.0.0.1') {
-        ipList.push(item.address);
+        tmpList.push(item.address);
       }
-    }
+    });
+  }
 
-    // netIf.map((item, index) => {
-    //   if (item.address && item.family === 'IPv4' && item.address !== '127.0.0.1') {
-    //     ipList.push(item.address);
-    //   }
-    // });
+  for (let i = tmpList.length; i--;) {
+    const item = tmpList[i];
+
+    ipList.push(item);
   }
 
   if (!ipList.length) {
