@@ -5,10 +5,9 @@ import * as finalhandler from 'finalhandler';
 import * as serveStatic from 'serve-static';
 import * as serveIndex from 'serve-index';
 import FolderReader from './folder-reader';
-import {getItem} from '../common/prefrence';
+import {getItem, SERVE_KEY} from '../common/prefrence';
 
 const projConf = require('../config.json');
-const DEFAULT_PATH = getItem('servePath');
 
 interface IFsServer {
   start(): void;
@@ -22,8 +21,26 @@ class FsServer implements IFsServer {
   server;
   folderReader;
 
-  constructor(rootPath = DEFAULT_PATH) {
-    this.publicPath = rootPath;
+  constructor() {
+  }
+
+  public start() {
+    this._configServer();
+    this.server = this._createServer();
+    this.server.listen(projConf.HTTP_SERVER_PORT);
+  }
+
+  public stop() {
+    this.server.close();
+  }
+
+  public reload() {
+    this.stop();
+    this.start();
+  }
+
+  private _configServer() {
+    this.publicPath = getItem(SERVE_KEY);
     this.fsService = serveStatic(this.publicPath);
     this.folderReader = new FolderReader(this.publicPath);
 
@@ -33,15 +50,6 @@ class FsServer implements IFsServer {
       stylesheet: path.join(serverIndexAssetsPath, 'style.css'),
       template: path.join(serverIndexAssetsPath, 'directory.html')
     });
-  }
-
-  public start() {
-    this.server = this._createServer();
-    this.server.listen(projConf.HTTP_SERVER_PORT);
-  }
-
-  public stop() {
-    this.server.close();
   }
 
   private _createServer() {

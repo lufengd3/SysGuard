@@ -1,6 +1,7 @@
 import FileList from './pages/file-list';
 import Settings from './pages/settings';
 import About from './pages/about';
+import ToDo from './pages/todo';
 
 type route = {
   name: string,
@@ -15,10 +16,15 @@ const ROUTE_CONF: Array<route> = [{
   path: '/',
   component: FileList,
 }, {
-//   name: '设置',
-//   icon: 'Settings',
-//   path: '/settings',
-//   component: Settings
+  name: '设置',
+  icon: 'Settings',
+  path: '/settings',
+  component: Settings
+}, {
+//   name: 'Note',
+//   icon: 'EditNote',
+//   path: '/todo',
+//   component: ToDo
 // }, {
   name: '关于',
   icon: 'Info',

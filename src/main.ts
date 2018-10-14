@@ -1,8 +1,9 @@
-import {app, BrowserWindow, Tray} from 'electron';
+import {app, BrowserWindow, Tray, ipcMain} from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import * as ip from 'ip';
 import FsServer from './node/fs-server';
+import {FILE_SREVER_RELOAD} from './common/ipc-channel';
 
 const projConf = require('./config.json');
 const assetsDirectory = path.join(__dirname, '../assets');
@@ -56,9 +57,16 @@ const startNodeService = () => {
   fsServer.start();
 }
 
+const bindListener = () => {
+  ipcMain.on(FILE_SREVER_RELOAD, () => {
+    fsServer.reload();
+  });
+}
+
 app.on('ready', () => {
   createWindow();
   startNodeService();
+  bindListener();
 })
 
 app.on('window-all-closed', () => {

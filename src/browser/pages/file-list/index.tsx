@@ -6,7 +6,7 @@ import {DefaultButton} from 'office-ui-fabric-react/lib/Button';
 import {Dropdown} from 'office-ui-fabric-react/lib/Dropdown';
 import {Label} from 'office-ui-fabric-react/lib/Label';
 import {TextField} from 'office-ui-fabric-react/lib/TextField';
-import {getItem} from '../../../common/prefrence';
+import {getItem, SERVE_KEY} from '../../../common/prefrence';
 import * as style from './style.less';
 
 const projConf = require('../../../config.json');
@@ -23,7 +23,7 @@ class Mod extends React.Component {
 
 
   componentWillMount() {
-    this.folder = getItem('servePath');
+    this.folder = getItem(SERVE_KEY);
   }
 
   _openFolder = () => {
@@ -60,7 +60,7 @@ class Mod extends React.Component {
           <DefaultButton
             primary={true}
             text="打开"
-            onClick={this._openFolder}
+            onClick={this._openUrl}
             allowDisabledFocus={true}
           />
         </div>

@@ -1,28 +1,30 @@
-import * as fs from 'fs';
-import * as os from 'os';
-import * as path from 'path';
+import * as electron from 'electron';
+// import * as fs from 'fs';
+// import * as os from 'os';
+// import * as path from 'path';
+import * as Store from 'electron-store';
 
-const HOME_DIR = os.homedir();
-const CONFIG_FILE = path.join(HOME_DIR, '.sysguard.json');
+const {app, remote} = electron;
+const DOWNLOAD_FOLDER_NAME = 'downloads';
+const DEFAULT_SERVE_PATH = (app && app.getPath(DOWNLOAD_FOLDER_NAME)) || (remote && remote.app.getPath(DOWNLOAD_FOLDER_NAME));
+const SERVE_KEY = 'serve_path';
+const store = new Store();
 
-function setItem(key) {
-  const conf = {
-  };
+function setItem(key, val) {
+  store.set(key, val);
 }
 
 function getItem(key) {
-  const conf = {
-    servePath: path.join(HOME_DIR, 'Downloads')
-  };
-
-  if (!conf[key]) {
-    throw new Error('No such setting');
+  let val = store.get(key);
+  if (key === SERVE_KEY && !val) {
+    val = DEFAULT_SERVE_PATH;
   }
 
-  return conf[key];
+  return val;
 }
 
 export {
   getItem,
-  setItem
+  setItem,
+  SERVE_KEY
 };
