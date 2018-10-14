@@ -13,7 +13,7 @@ const INDEX_CONFIG = DEBUG_MODE ? {
   pathname: `//127.0.0.1:${projConf.DEV_STATIC_SERVER_PORT}/index.html`,
   protocol: 'http:',
 } : {
-  pathname: path.join(__dirname, '../index.html'),
+  pathname: path.join(__dirname, 'index.html'),
   protocol: 'file:',
 }
 
