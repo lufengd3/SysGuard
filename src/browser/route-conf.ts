@@ -21,11 +21,11 @@ const ROUTE_CONF: Array<route> = [{
   path: '/settings',
   component: Settings
 }, {
-//   name: 'Note',
-//   icon: 'EditNote',
-//   path: '/todo',
-//   component: ToDo
-// }, {
+  name: '笔记',
+  icon: 'EditNote',
+  path: '/todo',
+  component: ToDo
+}, {
   name: '关于',
   icon: 'Info',
   path: '/about',

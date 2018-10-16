@@ -1,5 +1,42 @@
 @import "../../base";
 
+@box-margin: 4px;
+
 .container {
   .pageContainer;
+  justify-content: flex-start;
+}
+
+.boxContainer {
+  width: 90%;
+  height: 100%;
+}
+
+.boxRow {
+  width: 100%;
+  height: 48%;
+  display: flex;
+  margin-bottom: @box-margin;
+}
+
+.box {
+  width: 50%;
+  height: 100%;
+  margin-right: @box-margin;
+}
+
+.redbox {
+  background-color: rgba(246, 83, 20, 0.7);
+}
+
+.greenbox {
+  background-color: rgba(124, 187, 0, 0.7);
+}
+
+.bluebox {
+  background-color: rgba(0, 161, 241, 0.7);
+}
+
+.yellowbox {
+  background-color: rgba(255, 187, 0, 0.7);
 }

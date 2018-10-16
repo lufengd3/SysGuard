@@ -1,12 +1,20 @@
 import * as React from 'react';
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import TodoCard from './todocard';
 import * as style from './box.less';
 
-class Mod extends React.Component {
+interface IProps extends React.Props<any> {
+  classN: string;
+  title: string;
+}
+
+class Mod extends React.Component<IProps, any> {
   render() {
+    const classN = this.props.classN || '';
+
     return (
-      <div className={style.box}>
-        HHHHLKJlsdjlkfdsljfljds
+      <div className={`${style.box} ${classN}`}>
+        {this.props.title}
+        <TodoCard />
       </div>
     );
   }
