@@ -21,7 +21,7 @@ const ROUTE_CONF: Array<route> = [{
   path: '/settings',
   component: Settings
 }, {
-  name: '笔记',
+  name: 'Todo',
   icon: 'EditNote',
   path: '/todo',
   component: ToDo
